@@ -240,6 +240,7 @@ def srt():
     except Exception as e:
         return jsonify({'error':str(e)}), 500
 
+#예약현황 상태관리
 @app.route('/status/<task_id>', methods=['GET'])
 def get_status(task_id):
     status = redis_client.hgetall(f"task:{task_id}")    # Redis에서 상태 조회
