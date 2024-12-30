@@ -1,0 +1,7 @@
+name: SRT Booking System WorkFlow
+on: push
+jobs:
+  hello:
+    runs-on: ubuntu-lates
+    steps:
+      - run: echo 'Hello'
