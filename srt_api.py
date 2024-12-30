@@ -177,7 +177,7 @@ def background_task(ticket_info, task_id):
             f"task:{task_id}",
             mapping={
                 "status": "running",
-                "message": "예약 프로세스 시작"
+                "message": "예약 프로세스 시작",
                 "created_at": datetime.now().strftime('%Y%m%d%H%M%S%f')
             }
         )
@@ -190,7 +190,7 @@ def background_task(ticket_info, task_id):
             f"task:{task_id}",
             mapping={
                 "status": "completed",
-                "message": "예약 완료"
+                "message": "예약 완료",
                 "created_at": datetime.now().strftime('%Y%m%d%H%M%S%f')
             }
         )
