@@ -204,7 +204,7 @@ def background_task(ticket_info, task_id):
         
         print(f"[예약프로세스 에러] 회원번호: {ticket_info['memberNumber']} task: task:{task_id}")
 
-# 예약API
+# 예약API 
 @app.route('/srt',methods=['POST'])
 def srt():
     try:
