@@ -1,26 +1,29 @@
-# name: SRT Booking System WorkFlow
-# on: push
-# jobs:
-#   hello:
-#     runs-on: ubuntu-lates
-#     steps:
-#       - run: echo 'Hello'
+name: SRT Booking System Deploy 
+on: push
 
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
 jobs:
-  Explore-GitHub-Actions:
-    runs-on: ubuntu-latest
+  deploy:
+    runs-on: ubuntu-lates
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v4
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+      - uses: actions/checkout@v2
+      
+      - name: Copy files to EC2
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_IP }}
+          username: ${{ secrets.EC2_USERNAME}}
+          key: ${{ secrets.EC2_KEY}}
+          source: "*.py"
+          target: "/home/ec2-user/srt-api"
+
+      - name: Execute deployment!
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_IP }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_KEY }}
+          script: | 
+            cd /home/ec2-user/srt-api
+            pip3 install flask flask-cors redis selenium
+            pkill -f srt_api.py || true
+            nohup python3 srt_api.py > output.log 2>&1 &
