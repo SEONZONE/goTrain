@@ -26,30 +26,8 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_KEY }}
           script: | 
-            echo "Deployment Start..."
             cd /home/ec2-user/srt-api
-            
-            echo "Installing packages..."
             pip3 install flask flask-cors redis selenium
-            
-            echo "Checking existing process..."
-            if pgrep -f "python3 srt_api.py"; then
-              echo "Killing existing process..."
-              pkill -f "python3 srt_api.py"
-              sleep 5
-            fi
-            
-            echo "Starting new process..."
-            nohup python3 srt_api.py > output.log 2>&1 &
-            sleep 5
-            
-            echo "Checking process status..."
-            if pgrep -f "python3 srt_api.py"; then
-              echo "Process successfully started"
-              tail -n 5 output.log
-              exit 0
-            else
-              echo "Process failed to start"
-              tail -n 5 output.log
-              exit 1
-            fi
+            sudo systemctl restart srt-api
+            sleep 3
+            sudo systemctl status srt-api
