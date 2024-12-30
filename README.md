@@ -1,8 +1,10 @@
+```
 [프론트엔드 - React]
         ↓
 [웹 서버 - Node.js] → [MySQL]
         ↓
 [예약 서버 - Flask/Selenium] → [Redis]
+```
 
 # 서비스 구조 명세서
 

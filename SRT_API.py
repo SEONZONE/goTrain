@@ -7,6 +7,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
 from modules.selenium import *
 from flask_cors import CORS 
+from datetime import datetime
 
 import json
 import time
@@ -177,6 +178,7 @@ def background_task(ticket_info, task_id):
             mapping={
                 "status": "running",
                 "message": "예약 프로세스 시작"
+                "created_at": datetime.now().strftime('%Y%m%d%H%M%S%f')
             }
         )
         
@@ -189,6 +191,7 @@ def background_task(ticket_info, task_id):
             mapping={
                 "status": "completed",
                 "message": "예약 완료"
+                "created_at": datetime.now().strftime('%Y%m%d%H%M%S%f')
             }
         )
     except Exception as e:
