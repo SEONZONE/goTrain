@@ -85,9 +85,6 @@ def ticket_start(ticket_info):
         train_list = driver.find_elements(By.CSS_SELECTOR, "#result-form > fieldset > \
         div.tbl_wrap.th_thead > table > tbody > tr")
 
-        print(train_list)
-
-
         while True: 
             try:
                 for i in range(ticket_info['fromTrainNumber'],ticket_info['toTrainNumber'] + 1):
@@ -144,7 +141,6 @@ def ticket_start(ticket_info):
                 # 다시 조회하기
                     submit = driver.find_element(By.XPATH, "/html/body/div/div[4]/div/div[2]/form/fieldset/div[2]/input")
                     driver.execute_script("arguments[0].click();", submit)
-                    print("새로고침")
 
                 except: 
                     print("잔여석 없음 #2. 초기화")
@@ -181,7 +177,7 @@ def background_task(ticket_info, task_id):
                 "created_at": datetime.now().strftime('%Y%m%d%H%M%S%f')
             }
         )
-        
+        print(f"[예약프로세스 시작] 회원번호: {ticket_info['memberNumber']} task: task:{task_id}")
         # 기존 티켓 예약 로직 실행
         result = ticket_start(ticket_info)
         
@@ -194,6 +190,8 @@ def background_task(ticket_info, task_id):
                 "created_at": datetime.now().strftime('%Y%m%d%H%M%S%f')
             }
         )
+        
+        print(f"[예약프로세스 완료] 회원번호: {ticket_info['memberNumber']} task: task:{task_id}")
     except Exception as e:
         # 실패시 Redis에 에러 상태 저장
         redis_client.hset(
@@ -203,6 +201,8 @@ def background_task(ticket_info, task_id):
                 "message": str(e)
             }
         )    
+        
+        print(f"[예약프로세스 에러] 회원번호: {ticket_info['memberNumber']} task: task:{task_id}")
 
 # 예약API
 @app.route('/srt',methods=['POST'])
@@ -255,4 +255,5 @@ def get_status(task_id):
     return jsonify(status), 200
 
 if __name__ == '__main__':   
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
+    # app.run(debug=True)
