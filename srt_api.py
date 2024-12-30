@@ -231,7 +231,7 @@ def srt():
         
         thread.start()
         
-        # 즉시 응답 반환
+        # 즉시 응답 반환 
         return jsonify({
             'message': '예약 프로세스가 시작되었습니다.',
             'task_id': task_id
