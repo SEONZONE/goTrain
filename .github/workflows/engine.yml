@@ -26,27 +26,10 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_KEY }}
           script: | 
-            echo "Starting deployment process..."
-            echo "Changing directory..."
             cd /home/ec2-user/srt-api
-            echo "Current directory: $(pwd)"
-            
-            echo "Installing required packages..."
             pip3 install flask flask-cors redis selenium
-            
-            echo "Checking for existing process..."
             ps aux | grep srt_api.py
-            
-            echo "Killing existing process if running..."
             pkill -f srt_api.py || true
-            
-            echo "Starting new process..."
             nohup python3 srt_api.py > output.log 2>&1 &
-            
-            echo "Verifying process started..."
             ps aux | grep srt_api.py
-            
-            echo "Checking output log..."
             tail -n 5 output.log || true
-            
-            echo "Deployment complete!"
