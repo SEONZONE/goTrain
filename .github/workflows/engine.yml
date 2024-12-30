@@ -1,6 +1,8 @@
 name: SRT Booking System Deploy 
-on: push
-
+on: 
+  push:
+    paths:
+      - '**.py'
 jobs:
   deploy:
     runs-on: ubuntu-lates
