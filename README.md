@@ -38,7 +38,7 @@
 
 ## 4. 인프라
 - AWS EC2
-  - 웹 서버: t2.micro (프리티어)
+  - 웹 서버: t2.micro 
   - 예약 서버: t2.small or medium
 - GitHub Actions (CI/CD)
 
