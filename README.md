@@ -1,3 +1,6 @@
+![SRT흐름](https://github.com/user-attachments/assets/8f3bbee5-a31d-4348-a5a3-7d96e56c4010)
+
+
 ```
 [프론트엔드 - React]
         ↓
